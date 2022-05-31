@@ -1,0 +1,10 @@
+es_stopwords: ./data/stop-esp.txt
+en_stopwords: ./data/stop-eng.txt
+es_innerstop: ./data/inner-stop-esp.txt
+en_innerstop: ./data/inner-stop-eng.txt
+es_numlist: ./data/numberlist_es
+exclusion_regexps: ./data/exclusion-regexps.txt
+timex_annotador_endpoint: http://localhost:8080/annotate/
+termsuite_endpoint: http://localhost:8083/extract_terminology
+
+logfile_location: termitup.log

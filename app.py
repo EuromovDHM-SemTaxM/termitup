@@ -1,4 +1,10 @@
 """A Python Flask REST API BoilerPlate (CRUD) Style"""
+import logging
+import sys
+
+from modules_api.configuration import PARAMS
+from modules_api.utils.logging import setup_logging
+
 """prueba"""
 import argparse
 import os
@@ -8,8 +14,11 @@ from flask_swagger_ui import get_swaggerui_blueprint
 import request_api
 
 
-
 APP = Flask(__name__)
+
+setup_logging(console_log_output="stdout", console_log_level="debug", console_log_color=True,
+                          logfile_file=PARAMS['logfile_location'], logfile_log_level="warn", logfile_log_color=False,
+                          log_line_template="%(color_on)s[%(created)d] [%(threadName)s] [%(levelname)-8s] %(message)s%(color_off)s")
 
 ### swagger specific ###
 SWAGGER_URL = '/swagger'
@@ -26,8 +35,6 @@ APP.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 
 APP.register_blueprint(request_api.get_blueprint())
-
-
 
 
 @APP.errorhandler(400)
@@ -53,11 +60,13 @@ def handle_500_error(_error):
     """Return a http 500 error to client"""
     return make_response(jsonify({'error': 'Server error'}), 500)
 
+
 @APP.errorhandler(504)
 def handle_504_error(_error):
     """Return a http 500 error to client"""
     return make_response(jsonify({'error': 'Term not found'}), 504)
-	
+
+
 @APP.route('/')
 def home():
     return render_template('home.html')
